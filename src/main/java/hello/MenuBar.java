@@ -8,13 +8,13 @@ public class MenuBar extends JMenuBar implements ActionListener {
 
     private JMenuItem saveItem, openItem, saveAsItem;
     private JCheckBox nightModeCheckbox;
-    private FileService fileService;
+    private UserInterfaceFileService userInterfaceFileService;
     private UserInterface userInterface;
     private JMenu settingsMenu;
 
-    MenuBar(FileService fileService, UserInterface userInterface) {
+    MenuBar(UserInterfaceFileService userInterfaceFileService, UserInterface userInterface) {
 
-        this.fileService = fileService;
+        this.userInterfaceFileService = userInterfaceFileService;
         this.userInterface = userInterface;
 
         JMenu menu = new JMenu("Menu");
@@ -64,22 +64,22 @@ public class MenuBar extends JMenuBar implements ActionListener {
         int returnVal = fileChooser.showSaveDialog(this);
 
         if (returnVal == JFileChooser.APPROVE_OPTION) {
-            fileService.saveFile(fileChooser.getSelectedFile().toString());
+            userInterfaceFileService.saveFile(fileChooser.getSelectedFile().toString());
         }
     }
 
     private void saveFile() {
 
-        if (fileService.getCurrentlyOpenedFile() == null) {
+        if (userInterfaceFileService.getCurrentlyOpenedFile() == null) {
             JFileChooser fileChooser = new JFileChooser();
 
             int returnVal = fileChooser.showSaveDialog(this);
 
             if (returnVal == JFileChooser.APPROVE_OPTION) {
-                fileService.saveFile(fileChooser.getSelectedFile().toString());
+                userInterfaceFileService.saveFile(fileChooser.getSelectedFile().toString());
             }
         } else {
-            fileService.saveFile(fileService.getCurrentlyOpenedFile());
+            userInterfaceFileService.saveFile(userInterfaceFileService.getCurrentlyOpenedFile());
         }
     }
 
@@ -88,7 +88,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
         int returnVal = fileChooser.showOpenDialog(this);
 
         if (returnVal == JFileChooser.APPROVE_OPTION) {
-            fileService.openFile(fileChooser.getSelectedFile().toString());
+            userInterfaceFileService.openFile(fileChooser.getSelectedFile().toString());
         }
     }
 

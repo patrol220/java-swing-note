@@ -20,9 +20,9 @@ public class UserInterface implements Runnable{
 
         editorPane = new TextEditor(this);
 
-        FileService fileService = new FileService(this, editorPane);
+        UserInterfaceFileService userInterfaceFileService = new UserInterfaceFileService(this, editorPane);
 
-        menuBar = new MenuBar(fileService, this);
+        menuBar = new MenuBar(userInterfaceFileService, this);
         frame.setJMenuBar(menuBar);
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -45,7 +45,7 @@ public class UserInterface implements Runnable{
     }
 
     void setStyle(String fileName) {
-
+        System.out.println(fileName);
     }
 
     public void run() {

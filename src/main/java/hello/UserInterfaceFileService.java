@@ -1,31 +1,26 @@
 package hello;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
+import service.fileService.FileService;
 
-class FileService {
+class UserInterfaceFileService {
     
     private UserInterface userInterface;
     private TextEditor textEditor;
     private String currentlyOpenedFile;
+    private FileService fileService;
 
-    FileService(UserInterface userInterface, TextEditor textEditor) {
+    UserInterfaceFileService(UserInterface userInterface, TextEditor textEditor) {
         this.userInterface = userInterface;
         this.textEditor = textEditor;
+        this.fileService = new FileService();
     }
 
     boolean saveFile(String fileName) {
         try {
-
-            FileWriter fileWriter = new FileWriter(fileName);
-            fileWriter.write(textEditor.getEditorText());
-
+            fileService.save(fileName, textEditor.getEditorText());
             userInterface.setWindowTitle(fileName);
             textEditor.setTextChanged(false);
             currentlyOpenedFile = fileName;
-
-            fileWriter.close();
         } catch (Exception exception) {
             System.out.println("Saving to file failed: " + exception.toString());
             return false;
@@ -35,17 +30,7 @@ class FileService {
 
     boolean openFile(String fileName) {
         try {
-            BufferedReader fileReader = new BufferedReader(new FileReader(fileName));
-
-            String line;
-
-            StringBuilder text = new StringBuilder();
-
-            while ((line = fileReader.readLine()) != null) {
-                text.append(line).append("\n");
-            }
-
-            textEditor.setEditorText(text.toString());
+            textEditor.setEditorText(fileService.open(fileName));
             textEditor.setTextChanged(false);
             userInterface.setWindowTitle(fileName);
 
